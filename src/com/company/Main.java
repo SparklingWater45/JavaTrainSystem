@@ -13,9 +13,9 @@ public class Main {
 
         TrainSystem trainSystem = new TrainSystem("London Tube");
 
-        Passenger passengerDylan = new Passenger("Dylan", "1");
+        Passenger passengerDylan = new Passenger("1", "Dylan", "1");
 
-        loggedInPassenger = passengerDylan;
+//        loggedInPassenger = passengerDylan;
 
         //add funds(amount)
         //add funds to customer
@@ -28,8 +28,16 @@ public class Main {
         //      ->if valid transaction processes -> arrive at new station
 
         int optionChoice = 0;
+        boolean startScreenPassed = false;
 
         while (true) {
+
+            //stops handleStartScreen() running on every loop
+            if (!startScreenPassed) {
+                do {
+                    startScreenPassed = handleStartScreen(trainSystem);
+                } while (!startScreenPassed);
+            }
 
             do {
                 optionChoice = handleMenuOptions();
@@ -39,14 +47,14 @@ public class Main {
                 case 1:
                     //loggedInPassenger
                     //set logged in passenger global variable to the chosen passenger
-                    System.out.println("logging in passenger");
+
                     break;
                 case 2:
                     //enter starting station
                     //enter exiting station
                     String startStation = "bellville";
-                    String exitStation  = "capetown";
-                    travelStation(trainSystem,startStation,exitStation);
+                    String exitStation = "capetown";
+                    travelStation(trainSystem, startStation, exitStation);
 
 //                    int stops = trainSystem.calculateStops(trainSystem.getStationObjects("bellville","capetown"));
 //                    trainSystem.calculateCost(stops);
@@ -59,13 +67,89 @@ public class Main {
                     addPassengerFunds(passengerDylan);
                     break;
                 case 4:
-                    //view travel history + costs
+                    //view travel historsy + costs
 
                 case 5:
                     //quit
                     System.exit(0);
             }
         }
+
+    }
+
+    public static boolean handleStartScreen(TrainSystem trainSystem) {
+
+        int choice = 0;
+
+        do {
+            System.out.println("""
+                    1.Login
+                    2.Create Account
+                    """);
+            System.out.print("Menu choice -> ");
+            try {
+                String menuChoice = sc.nextLine();
+                choice = Integer.parseInt(menuChoice);
+
+            } catch (Exception e) {
+                System.out.println("Error occurred");
+                e.printStackTrace();
+            }
+        }
+        while ((choice != 1) && (choice != 2));
+
+
+        if(choice == 1) {
+            /*
+             * LOGIN
+             * Get user login details
+            sets the system loggedInUser as the matching user object in the TrainSystem passenger list */
+            loggedInPassenger = loginUser(trainSystem);
+
+        }
+
+        /**
+         * Get user details for creating an account
+     */
+//        createAccount();
+
+        return false;
+    }
+
+
+    public Passenger createAccount() {
+
+        return null;
+    }
+
+    public static Passenger loginUser(TrainSystem trainSystem) {
+        //search for user id
+        //check if id given = password
+        //return user object from TrainSystem
+        //set user object as global loggedInUser variable
+
+        String id;
+        String password;
+        Passenger foundPassenger = null;
+
+        //get details
+        //keep asking until they get it right
+        do {
+            System.out.println("Enter id -> ");
+            id = sc.nextLine();
+
+            System.out.println("Enter password -> ");
+            password = sc.nextLine();
+
+           foundPassenger = trainSystem.validatePassengerCredentials(id,password);
+
+            if (foundPassenger == null) {
+                System.out.println("Invalid id/password combination entered , please try again");
+            }
+        } while (foundPassenger != null);
+
+
+        return foundPassenger;
 
     }
 
