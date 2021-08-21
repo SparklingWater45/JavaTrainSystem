@@ -10,12 +10,12 @@ public class Passenger {
 
     private String name;
 
-    private byte passwordHash[];
+    private byte passwordHash[];//hashed password
 
     private String password;
 
     //unique ID for the user
-    private String uuid; //hashed pin
+    private String uuid;
 
     private double funds;
 
@@ -31,17 +31,34 @@ public class Passenger {
         this.uuid = id;
 
 
-//        //Hash the password
-//        try {
-//            MessageDigest md = MessageDigest.getInstance("MD5");
-//            this.passwordHash = md.digest(password.getBytes());
-//
-//        } catch (NoSuchAlgorithmException e) {
-//            System.err.println("error NoSuchAlgorithmException");
-//            e.printStackTrace();
-//            System.exit(1);
-//        }
+        //Hash the password
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            this.passwordHash = md.digest(password.getBytes());
 
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println("error NoSuchAlgorithmException");
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+    }
+
+    /**
+     * Check whether the entered password is valid or not
+     * @return
+     */
+    public boolean validatePassword(String passwordToBeValidated) {
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            return MessageDigest.isEqual(md.digest(passwordToBeValidated.getBytes()), this.passwordHash);
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println("error NoSuchAlgorithmException");
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return false;
     }
 
     public void addNewTransactionTrip(String stationStart, String stationExit, int amountStops) {

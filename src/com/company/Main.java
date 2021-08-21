@@ -1,6 +1,5 @@
 package com.company;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -47,28 +46,29 @@ public class Main {
                 case 1:
                     //loggedInPassenger
                     //set logged in passenger global variable to the chosen passenger
-
                     break;
                 case 2:
                     //enter starting station
                     //enter exiting station
                     String startStation = "bellville";
                     String exitStation = "capetown";
+                    handleTravelScreen();
+
+
                     travelStation(trainSystem, startStation, exitStation);
 
 //                    int stops = trainSystem.calculateStops(trainSystem.getStationObjects("bellville","capetown"));
 //                    trainSystem.calculateCost(stops);
                     //determine amount of stops to chosen station
                     //determine cost (amount of stops*R5)
-
                     break;
                 case 3:
                     //add funds to account
                     addPassengerFunds(passengerDylan);
                     break;
                 case 4:
-                    //view travel historsy + costs
-
+                    //view travel history + costs
+                    break;
                 case 5:
                     //quit
                     System.exit(0);
@@ -76,6 +76,22 @@ public class Main {
         }
 
     }
+
+    /**
+     * Options for different stations
+     */
+    public static boolean handleTravelScreen(){
+
+        String startingStation;
+        String exitStation;
+
+        //loop through trainStation listStations and display all stations to the user
+
+
+        return false;
+    }
+
+
 
     public static boolean handleStartScreen(TrainSystem trainSystem) {
 
@@ -99,58 +115,80 @@ public class Main {
         while ((choice != 1) && (choice != 2));
 
 
-        if(choice == 1) {
+        if (choice == 1) {
             /*
              * LOGIN
              * Get user login details
             sets the system loggedInUser as the matching user object in the TrainSystem passenger list */
             loggedInPassenger = loginUser(trainSystem);
 
-        }
+        }else{
 
+            createAccount(trainSystem);
+        }
         /**
          * Get user details for creating an account
-     */
+         */
 //        createAccount();
 
-        return false;
+        return true;
     }
 
 
-    public Passenger createAccount() {
+    public static void createAccount(TrainSystem trainSystem) {
 
-        return null;
+        boolean passedName = false;
+        String name = "";
+
+        //loops until valid name entered.
+        while(!passedName){
+            System.out.print("Enter your name -> ");
+            name = sc.nextLine();
+
+            //validates all characters are alphabetical letters
+            if(name.matches("[A-Za-z]+")){
+                passedName = true;
+            }
+        }
+
+        System.out.print("Enter password -> ");
+        String password = sc.nextLine();
+
+
+        loggedInPassenger = trainSystem.createNewPassenger(name,password);
+
     }
 
+    /**
+     * Asks for user details -> sets loggedInUser to returned passenger object
+     *
+     * @param trainSystem
+     * @return passenger object that matches credentials
+     */
     public static Passenger loginUser(TrainSystem trainSystem) {
-        //search for user id
-        //check if id given = password
-        //return user object from TrainSystem
-        //set user object as global loggedInUser variable
-
         String id;
         String password;
         Passenger foundPassenger = null;
-
         //get details
         //keep asking until they get it right
-        do {
+        while (true) {
             System.out.println("Enter id -> ");
             id = sc.nextLine();
 
             System.out.println("Enter password -> ");
             password = sc.nextLine();
 
-           foundPassenger = trainSystem.validatePassengerCredentials(id,password);
+            foundPassenger = trainSystem.validatePassengerCredentials(id, password);
 
             if (foundPassenger == null) {
                 System.out.println("Invalid id/password combination entered , please try again");
             }
-        } while (foundPassenger != null);
-
-
+            if (foundPassenger != null) {
+                break;
+            }
+        }
+        System.out.println("User found -> " + foundPassenger.getName());
         return foundPassenger;
-
     }
 
 

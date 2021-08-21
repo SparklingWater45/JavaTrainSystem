@@ -19,6 +19,9 @@ public class TrainSystem {
         //doubly-linked list
         this.listStations = new LinkedList<>();
 
+
+        this.listPassengers = new ArrayList<>();
+
         //starting stations created
         Station capetown = new Station("capetown");
         Station bellville = new Station("bellville");
@@ -31,23 +34,72 @@ public class TrainSystem {
         this.listStations.add(durbanville);
         this.listStations.add(paarl);
         this.listStations.add(wellington);
+
+
+        //existing passenger created
+        Passenger dylan = new Passenger("1", "Dylan", "1");
+        this.listPassengers.add(dylan);
     }
 
 
     /**
-     *
+     * @param name
+     * @param password
+     * @return the newly created PassengerObject
+     */
+    public Passenger createNewPassenger(String name, String password) {
+
+        //create new uuid
+        //check the uuid isn't already in use
+
+        //add new Passenger to listPassengers
+
+        String newId = createNewPassengerUUID();
+        return new Passenger(newId, name, password);
+
+    }
+
+    private String createNewPassengerUUID() {
+        //init
+        String uuid;
+        Random rng = new Random();
+        int len = 4;
+        boolean nonUnique;
+
+        //continue looping until we get a unique ID
+        do {
+            //generate the number
+            uuid = "";
+
+            for (int c = 0; c < len; c++) {
+                uuid += ((Integer) rng.nextInt(10)).toString();
+            }
+            //compare to existing users UUID to make sure it's unique
+            nonUnique = false;
+            for (Passenger p : this.listPassengers) {
+                if (uuid.compareTo(p.getUuid()) == 0) {
+                    nonUnique = true;
+                    break;
+                }
+            }
+        } while (nonUnique); //while nonUnique is true
+
+        return uuid;
+    }
+
+    /**
      * @param id
      * @param password
      * @return the User object if they exist
      */
-    public Passenger validatePassengerCredentials(String id , String password){
+    public Passenger validatePassengerCredentials(String id, String password) {
 
-        for (Passenger p : this.listPassengers){
+        for (Passenger p : this.listPassengers) {
             //found id -> user exists
 
-            if(p.getUuid().equals(id)){
-            //check if password matches entered string
-                if (p.getPassword().equals(password)){
+            if (p.getUuid().equals(id)) {
+                //check if password matches entered string
+                if (p.getPassword().equals(password)) {
                     return p;
                 }
             }
@@ -133,14 +185,14 @@ public class TrainSystem {
                 System.out.println("found the start station!!!!");
                 beginStopCounts = true;
             }
-            if(temp.getName().equals(exitStation.getName()) && (beginStopCounts)){
+            if (temp.getName().equals(exitStation.getName()) && (beginStopCounts)) {
                 System.out.println("arrived at the end station!!!");
                 exitStationArrival = true;
                 break;
             }
             listIterator.next();
         }
-        if(!exitStationArrival) {
+        if (!exitStationArrival) {
             while (listIterator.hasPrevious() && (!exitStationArrival)) {
 
                 Station temp = this.listStations.get(listIterator.previousIndex());
@@ -159,43 +211,9 @@ public class TrainSystem {
         return countStops;
     }
 
-
-    public String createNewUserUuid(){
-
-        //init
-        String uuid;
-        Random rng = new Random();
-        int len = 6;
-        boolean nonUnique;
-
-        //continue looping until we get a unique ID
-        do {
-            //generate the number
-            uuid = "";
-
-            for (int c = 0; c < len; c++) {
-                uuid += ((Integer) rng.nextInt(10)).toString();
-            }
-
-            //compare to existing users UUID to make sure it's unique
-            nonUnique = false;
-            for (Passenger p : this.listPassengers) {
-                if (uuid.compareTo(p.getUuid()) == 0) {
-                    nonUnique = true;
-                    break;
-                }
-            }
-
-        } while (nonUnique); //while nonUnique is true
-
-        return uuid;
-
-    }
-
-
-    public double calculateCost(int stopCount){
+    public double calculateCost(int stopCount) {
         //R5 per stop
-        return stopCount*5;
+        return stopCount * 5;
     }
 
 }
