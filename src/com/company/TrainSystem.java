@@ -53,10 +53,8 @@ public class TrainSystem {
         //check the uuid isn't already in use
 
         //add new Passenger to listPassengers
-
         String newId = createNewPassengerUUID();
         return new Passenger(newId, name, password);
-
     }
 
     private String createNewPassengerUUID() {

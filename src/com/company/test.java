@@ -12,13 +12,11 @@ public class test {
         String a = "John";
 
 
-
-        if(a.matches("[A-Za-z]+")){
+        if (a.matches("[A-Za-z]+")) {
             System.out.println("MATCH");
-        }else{
+        } else {
             System.out.println("no match");
         }
-
 
 
     }

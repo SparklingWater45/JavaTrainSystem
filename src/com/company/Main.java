@@ -54,6 +54,9 @@ public class Main {
                     String exitStation = "capetown";
                     handleTravelScreen();
 
+                    //check passenger has enough funds for the trip
+
+
 
                     travelStation(trainSystem, startStation, exitStation);
 
@@ -80,7 +83,7 @@ public class Main {
     /**
      * Options for different stations
      */
-    public static boolean handleTravelScreen(){
+    public static boolean handleTravelScreen() {
 
         String startingStation;
         String exitStation;
@@ -90,7 +93,6 @@ public class Main {
 
         return false;
     }
-
 
 
     public static boolean handleStartScreen(TrainSystem trainSystem) {
@@ -122,7 +124,7 @@ public class Main {
             sets the system loggedInUser as the matching user object in the TrainSystem passenger list */
             loggedInPassenger = loginUser(trainSystem);
 
-        }else{
+        } else {
 
             createAccount(trainSystem);
         }
@@ -141,22 +143,20 @@ public class Main {
         String name = "";
 
         //loops until valid name entered.
-        while(!passedName){
+        while (!passedName) {
             System.out.print("Enter your name -> ");
             name = sc.nextLine();
 
             //validates all characters are alphabetical letters
-            if(name.matches("[A-Za-z]+")){
+            if (name.matches("[A-Za-z]+")) {
                 passedName = true;
             }
         }
-
         System.out.print("Enter password -> ");
         String password = sc.nextLine();
 
-
-        loggedInPassenger = trainSystem.createNewPassenger(name,password);
-
+        //sets the created account Passenger object to the loggedInUser.
+        loggedInPassenger = trainSystem.createNewPassenger(name, password);
     }
 
     /**

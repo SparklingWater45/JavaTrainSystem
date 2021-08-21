@@ -46,6 +46,7 @@ public class Passenger {
 
     /**
      * Check whether the entered password is valid or not
+     *
      * @return
      */
     public boolean validatePassword(String passwordToBeValidated) {
