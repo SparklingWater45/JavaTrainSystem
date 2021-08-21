@@ -1,5 +1,7 @@
 package com.company;
 
+import java.awt.font.TransformAttribute;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Passenger {
@@ -16,11 +18,34 @@ public class Passenger {
     public Passenger(String name, String password) {
         this.name = name;
         this.password = password;
+        this.travelHistory = new ArrayList<>();
     }
 
-    public void addFunds(double funds){
+    public void addNewTransactionTrip(String stationStart, String stationExit, int amountStops) {
 
-        if(funds >0){
+        //create TransactionTrip object
+        TransactionTrip newTransactionTrip = new TransactionTrip(stationStart, stationExit, amountStops, this);
+
+        //add object to the travelHistory List
+        travelHistory.add(newTransactionTrip);
+
+        for(int i = 0; i < getTravelHistory().size() ; i++){
+            System.out.println(getTravelHistory().get(i).getMemo());
+        }
+
+    }
+
+    public void viewTravelHistory(){
+
+        for(int i = this.travelHistory.size() ; i>0; i--){
+            System.out.println(this.getTravelHistory().get(i));
+        }
+
+    }
+
+    public void addFunds(double funds) {
+
+        if (funds > 0) {
             this.funds += funds;
         }
     }
@@ -45,4 +70,7 @@ public class Passenger {
         this.password = password;
     }
 
+    public List<TransactionTrip> getTravelHistory() {
+        return travelHistory;
+    }
 }

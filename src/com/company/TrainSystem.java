@@ -132,20 +132,8 @@ public class TrainSystem {
     }
 
     public double calculateCost(int stopCount){
-
         //R5 per stop
         return stopCount*5;
-    }
-
-
-
-
-    public void llTest() {
-        ListIterator iterator = stations.listIterator();
-
-        while (iterator.hasNext()) {
-            System.out.println(iterator);
-        }
     }
 
 }

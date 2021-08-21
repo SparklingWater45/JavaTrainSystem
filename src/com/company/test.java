@@ -19,15 +19,10 @@ public class test {
         }
 
 
-
-
         LinkedList<Station> test = new LinkedList();
 
         Station o = new Station("o");
         Station b = new Station("b");
-
-
-
 
         test.add(o);
         test.add(b);
@@ -37,9 +32,6 @@ public class test {
 
 
         //go to end and loop back
-
-
-
 
         while(testIterator.hasNext()){
             //fetch object variable from the

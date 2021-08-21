@@ -9,14 +9,13 @@ public class Main {
 
     private static Scanner sc = new Scanner(System.in);
 
-    TrainSystem trainSystem = new TrainSystem("London Tube");
-
     public static void main(String[] args) {
 
         TrainSystem trainSystem = new TrainSystem("London Tube");
 
-        Passenger passengerDylan = new Passenger("Dylan","1");
+        Passenger passengerDylan = new Passenger("Dylan", "1");
 
+        loggedInPassenger = passengerDylan;
 
         //add funds(amount)
         //add funds to customer
@@ -45,7 +44,9 @@ public class Main {
                 case 2:
                     //enter starting station
                     //enter exiting station
-                    travelStation(trainSystem);
+                    String startStation = "bellville";
+                    String exitStation  = "capetown";
+                    travelStation(trainSystem,startStation,exitStation);
 
 //                    int stops = trainSystem.calculateStops(trainSystem.getStationObjects("bellville","capetown"));
 //                    trainSystem.calculateCost(stops);
@@ -112,12 +113,19 @@ public class Main {
     }
 
 
-    public static void travelStation(TrainSystem trainSystem){
-        int amountStops = trainSystem.calculateStops(trainSystem.getStationObjects("bellville","capetown"));
+    public static void travelStation(TrainSystem trainSystem, String startStation, String exitStation) {
+        int amountStops = trainSystem.calculateStops(trainSystem.getStationObjects(startStation, exitStation));
         double cost = trainSystem.calculateCost(amountStops);
 
         //create transaction trip object for passenger object
-        
+        loggedInPassenger.addNewTransactionTrip(startStation, exitStation, amountStops);
+
+
+//        loggedInPassenger.viewTravelHistory();
+
+//        for (int i = 0; i < loggedInPassenger.getTravelHistory().size(); i++) {
+//            System.out.println(loggedInPassenger.getTravelHistory().get(i).getMemo());
+//        }
 
     }
 }
