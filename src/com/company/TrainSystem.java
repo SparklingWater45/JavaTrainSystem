@@ -46,7 +46,9 @@ public class TrainSystem {
      */
     public Passenger createNewPassenger(String name, String password) {
         String newId = createNewPassengerUUID();
-        return new Passenger(newId, name, password);
+        Passenger newPassenger = new Passenger(newId, name, password);
+        this.listPassengers.add(newPassenger);
+        return newPassenger;
     }
 
     private String createNewPassengerUUID() {
@@ -60,7 +62,6 @@ public class TrainSystem {
         do {
             //generate the number
             uuid = "";
-
             for (int c = 0; c < len; c++) {
                 uuid += ((Integer) rng.nextInt(10)).toString();
             }
@@ -74,7 +75,7 @@ public class TrainSystem {
             }
         } while (nonUnique); //while nonUnique is true
 
-        System.out.println("new id -> " + uuid);
+        System.out.println("new created id -> " + uuid);
         return uuid;
     }
 
@@ -109,24 +110,32 @@ public class TrainSystem {
         System.out.println("------------------");
     }
 
-    //return both objects relating to the string name passed
+    //returns Station objects that match the station String name
     public List<Station> getStationObjects(String startStationName, String exitStationName) {
 
+        int startStationIndex = -1;
+        int exitStationIndex = -1;
+
         List<Station> startExitStations = new ArrayList<>();
+
         for (int i = 0; i < getListStations().size(); i++) {
             if (getListStations().get(i).getName().equals(startStationName)) {
-                startExitStations.add(getListStations().get(i));
+                startStationIndex = i;
             }
+
             if (getListStations().get(i).getName().equals(exitStationName)) {
-                startExitStations.add(getListStations().get(i));
-            }
-            if (startExitStations.size() == 2) {
-                //returns list of station
-                //[0] -start station
-                //[1] - end station
-                return startExitStations;
+                exitStationIndex = i;
+
             }
         }
+        if ((startStationIndex != -1) && (exitStationIndex != -1)) {
+            //[0] -start station
+            //[1] - end station
+            startExitStations.add(getListStations().get(startStationIndex));
+            startExitStations.add(getListStations().get(exitStationIndex));
+            return startExitStations;
+        }
+
         //couldn't find both object names
         return null;
     }
@@ -137,41 +146,49 @@ public class TrainSystem {
         Station exitStation = startExitStations.get(1);
         ListIterator<Station> listIterator = this.listStations.listIterator();
 
-        //only starts incrementing when the train reaches the start Station
+        //only starts incrementing when the train reaches the startStation
         int countStops = 0;
-        //when train arrives at starting Station
+
+        //when train arrives at station -> true
         boolean beginStopCounts = false;
         boolean exitStationArrival = false;
 
         while ((listIterator.hasNext())) {
             Station temp = this.listStations.get(listIterator.nextIndex());
+
+            System.out.println(temp.getName());
+
             if (beginStopCounts) {
                 countStops += 1;
             }
             if (temp.getName().equals(startStation.getName())) {
+                System.out.println("start station found");
                 beginStopCounts = true;
             }
             if (temp.getName().equals(exitStation.getName()) && (beginStopCounts)) {
+                System.out.println("exit station found");
                 exitStationArrival = true;
                 break;
             }
             listIterator.next();
         }
+
         if (!exitStationArrival) {
+            //starts from end of track -> loops backwards
             while (listIterator.hasPrevious() && (!exitStationArrival)) {
 
                 Station temp = this.listStations.get(listIterator.previousIndex());
-                //starts searching at index 0
-                //cant get to end of track without finding start station
-                countStops += 1;
+
                 if (temp.getName().equals(exitStation.getName())) {
                     //arrived at last station
+                    System.out.println("exit station arrived");
                     exitStationArrival = true;
+                }else{
+                    countStops += 1;
                 }
                 listIterator.previous();
             }
         }
-        //return number of stops
         System.out.println(countStops);
         return countStops;
     }
@@ -192,8 +209,6 @@ public class TrainSystem {
     public List<Passenger> getListPassengers() {
         return listPassengers;
     }
-
-
 }
 
 
