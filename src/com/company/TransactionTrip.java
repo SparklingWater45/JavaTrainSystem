@@ -36,7 +36,7 @@ public class TransactionTrip {
         return memo;
     }
 
-    public String getTrip(){
+    public String getTrip() {
 
         return passengerAccount.getName() + " took [" + amountStops + "] stops for R" + costOfTrip + " from " + stationStart + "->" + stationEnd +
                 " at (" + this.timestamp + ")";
