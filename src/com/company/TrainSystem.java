@@ -23,11 +23,11 @@ public class TrainSystem {
         this.listPassengers = new ArrayList<>();
 
         //starting stations created
-        Station capetown = new Station("capetown");
-        Station bellville = new Station("bellville");
-        Station durbanville = new Station("durbanville");
-        Station paarl = new Station("paarl");
-        Station wellington = new Station("wellington");
+        Station capetown = new Station("capetown"); //0
+        Station bellville = new Station("bellville"); //1
+        Station durbanville = new Station("durbanville"); //2
+        Station paarl = new Station("paarl"); // 3
+        Station wellington = new Station("wellington"); //4
 
         this.listStations.add(capetown);
         this.listStations.add(bellville);
@@ -61,7 +61,7 @@ public class TrainSystem {
         //init
         String uuid;
         Random rng = new Random();
-        int len = 4;
+        int len = 5;
         boolean nonUnique;
 
         //continue looping until we get a unique ID
@@ -82,6 +82,7 @@ public class TrainSystem {
             }
         } while (nonUnique); //while nonUnique is true
 
+        System.out.println("new id -> " + uuid);
         return uuid;
     }
 
@@ -136,7 +137,7 @@ public class TrainSystem {
     /**
      * Calculate the number of between Start and Stop stations
      *
-     * @return
+     * @return list containing only startStation object and exitStation object
      */
 
     public List<Station> getStationObjects(String startStationName, String exitStationName) {
@@ -180,11 +181,9 @@ public class TrainSystem {
                 countStops += 1;
             }
             if (temp.getName().equals(startStation.getName())) {
-                System.out.println("found the start station!!!!");
                 beginStopCounts = true;
             }
             if (temp.getName().equals(exitStation.getName()) && (beginStopCounts)) {
-                System.out.println("arrived at the end station!!!");
                 exitStationArrival = true;
                 break;
             }

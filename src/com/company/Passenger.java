@@ -30,7 +30,6 @@ public class Passenger {
         //temp enable bottom later
         this.uuid = id;
 
-
         //Hash the password
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -41,7 +40,6 @@ public class Passenger {
             e.printStackTrace();
             System.exit(1);
         }
-
     }
 
     /**
@@ -62,10 +60,12 @@ public class Passenger {
         return false;
     }
 
-    public void addNewTransactionTrip(String stationStart, String stationExit, int amountStops) {
+    public void addNewTransactionTrip(String stationStart, String stationExit, int amountStops, double costOfTrip) {
+
 
         //create TransactionTrip object
-        TransactionTrip newTransactionTrip = new TransactionTrip(stationStart, stationExit, amountStops, this);
+        TransactionTrip newTransactionTrip = new TransactionTrip(stationStart, stationExit, amountStops, costOfTrip, this);
+
 
         //add object to the travelHistory List
         travelHistory.add(newTransactionTrip);
@@ -74,21 +74,26 @@ public class Passenger {
 
     public void viewTravelHistory() {
 
-        for (int i = this.travelHistory.size(); i > 0; i--) {
-            System.out.println(this.getTravelHistory().get(i));
+        if (this.travelHistory.isEmpty()) {
+            System.out.println("No travel history found");
+            return;
         }
+
+        for (int i = this.travelHistory.size() - 1; i >= 0; i--) {
+            System.out.println(this.getTravelHistory().get(i).getMemo());
+        }
+
 
     }
 
     public void addFunds(double funds) {
-
         if (funds > 0) {
             this.funds += funds;
         }
     }
 
-    public void removeFunds(double costOfTrip){
-        this.funds -= funds;
+    public void removeFunds(double costOfTrip) {
+        this.funds -= costOfTrip;
     }
 
     public String getUuid() {

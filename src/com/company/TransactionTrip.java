@@ -16,15 +16,20 @@ public class TransactionTrip {
 
     private Passenger passengerAccount;
 
-    public TransactionTrip(String stationStart, String stationEnd, int amountStops, Passenger passengerAccount) {
+    private double costOfTrip;
+
+    public TransactionTrip(String stationStart, String stationEnd, int amountStops, double cost, Passenger passengerAccount) {
         this.stationStart = stationStart;
         this.stationEnd = stationEnd;
         this.passengerAccount = passengerAccount;
         this.amountStops = amountStops;
         this.timestamp = new Date();
-
+        this.costOfTrip = cost;
 
         this.memo = getTrip();
+        System.out.println(this.memo);
+
+
     }
 
     public String getMemo() {
@@ -32,7 +37,8 @@ public class TransactionTrip {
     }
 
     public String getTrip(){
-        return String.format(passengerAccount.getName() + " took [" + amountStops + "] stops from " + stationStart + "->" + stationEnd +
-                " at (" + this.timestamp + ")");
+
+        return passengerAccount.getName() + " took [" + amountStops + "] stops for R" + costOfTrip + " from " + stationStart + "->" + stationEnd +
+                " at (" + this.timestamp + ")";
     }
 }
