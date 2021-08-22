@@ -44,21 +44,19 @@ public class Main {
 
             switch (optionChoice) {
                 case 1:
-                    //loggedInPassenger
-                    //set logged in passenger global variable to the chosen passenger
+                    //remove this
                     break;
                 case 2:
                     //enter starting station
                     //enter exiting station
                     String startStation = "bellville";
                     String exitStation = "capetown";
-                    handleTravelScreen();
+                    handleTravelScreen(trainSystem);
 
                     //check passenger has enough funds for the trip
 
 
-
-                    travelStation(trainSystem, startStation, exitStation);
+                    travelStation(trainSystem, startStation, exitStation, loggedInPassenger);
 
 //                    int stops = trainSystem.calculateStops(trainSystem.getStationObjects("bellville","capetown"));
 //                    trainSystem.calculateCost(stops);
@@ -70,28 +68,62 @@ public class Main {
                     addPassengerFunds(passengerDylan);
                     break;
                 case 4:
-                    //view travel history + costs
+                    loggedInPassenger.viewTravelHistory();
                     break;
                 case 5:
                     //quit
                     System.exit(0);
             }
         }
-
     }
 
     /**
      * Options for different stations
      */
-    public static boolean handleTravelScreen() {
-
-        String startingStation;
-        String exitStation;
-
-        //loop through trainStation listStations and display all stations to the user
+    public static void handleTravelScreen(TrainSystem trainSystem) {
 
 
-        return false;
+        String strStartingStation;
+        String strExitStation;
+        int intStartStation;
+        int intEndStation;
+
+        while (true) {
+            System.out.println("List of all stations:");
+
+            for (int i = 0; i < trainSystem.getListStations().size(); i++) {
+                System.out.println("\t" + (i + 1) + "." + trainSystem.getListStations().get(i).getName());
+            }
+
+            System.out.print("Starting station number -> ");
+            strStartingStation = sc.nextLine();
+
+            try {
+                intStartStation = Integer.parseInt(strStartingStation);
+
+                if (intStartStation > trainSystem.getListStations().size() + 1) {
+                    System.out.println("Invalid starting station specified");
+                }
+                System.out.print("Exiting station number -> ");
+                strExitStation = sc.nextLine();
+
+                intEndStation = Integer.parseInt(strExitStation);
+                if (intEndStation > trainSystem.getListStations().size() + 1) {
+                    System.out.println("Invalid exiting station specified");
+                } else {
+                    //break out while loop
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid value entered for station numbers");
+            }
+        }
+
+        //now have the starting station index and exiting station index
+        strStartingStation = trainSystem.getListStations().get(intStartStation).getName();
+        strExitStation = trainSystem.getListStations().get(intEndStation).getName();
+        travelStation(trainSystem, strStartingStation, strExitStation, loggedInPassenger);
+
     }
 
 
@@ -235,19 +267,27 @@ public class Main {
     }
 
 
-    public static void travelStation(TrainSystem trainSystem, String startStation, String exitStation) {
+    public static void travelStation(TrainSystem trainSystem, String startStation, String exitStation, Passenger loggedInPassenger) {
+
+        if (loggedInPassenger.getFunds() <= 0) {
+            System.out.println("Invalid funds for the trip , add funds");
+            return;
+        }
+
         int amountStops = trainSystem.calculateStops(trainSystem.getStationObjects(startStation, exitStation));
-        double cost = trainSystem.calculateCost(amountStops);
+        double costOfTrip = trainSystem.calculateCost(amountStops);
+
+        if (loggedInPassenger.getFunds() < costOfTrip) {
+            System.out.println("Invalid funds for the trip , add funds");
+            return;
+        }
+
+        System.out.println("Valid funds for the trip");
+        loggedInPassenger.removeFunds(costOfTrip);
+
 
         //create transaction trip object for passenger object
         loggedInPassenger.addNewTransactionTrip(startStation, exitStation, amountStops);
-
-
-//        loggedInPassenger.viewTravelHistory();
-
-//        for (int i = 0; i < loggedInPassenger.getTravelHistory().size(); i++) {
-//            System.out.println(loggedInPassenger.getTravelHistory().get(i).getMemo());
-//        }
 
     }
 }

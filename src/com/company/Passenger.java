@@ -70,10 +70,6 @@ public class Passenger {
         //add object to the travelHistory List
         travelHistory.add(newTransactionTrip);
 
-        for (int i = 0; i < getTravelHistory().size(); i++) {
-            System.out.println(getTravelHistory().get(i).getMemo());
-        }
-
     }
 
     public void viewTravelHistory() {
@@ -91,6 +87,9 @@ public class Passenger {
         }
     }
 
+    public void removeFunds(double costOfTrip){
+        this.funds -= funds;
+    }
 
     public String getUuid() {
         return uuid;
