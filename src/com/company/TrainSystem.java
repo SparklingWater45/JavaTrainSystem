@@ -68,7 +68,7 @@ public class TrainSystem {
             //compare to existing users UUID to make sure it's unique
             nonUnique = false;
             for (Passenger p : this.listPassengers) {
-                if (uuid.compareTo(p.getUuid()) == 0) {
+                if (uuid.compareTo(p.getTravelCardUUID()) == 0) {
                     nonUnique = true;
                     break;
                 }
@@ -84,9 +84,9 @@ public class TrainSystem {
         for (Passenger p : this.listPassengers) {
             //found id -> user exists
 
-            if (p.getUuid().equals(id)) {
+            if (p.getTravelCardUUID().equals(id)) {
                 //check if password matches entered string
-                if (p.getPassword().equals(password)) {
+                if (p.validatePassword(password)) {
                     return p;
                 }
             }
@@ -115,7 +115,6 @@ public class TrainSystem {
 
         int startStationIndex = -1;
         int exitStationIndex = -1;
-
         List<Station> startExitStations = new ArrayList<>();
 
         for (int i = 0; i < getListStations().size(); i++) {
@@ -125,7 +124,6 @@ public class TrainSystem {
 
             if (getListStations().get(i).getName().equals(exitStationName)) {
                 exitStationIndex = i;
-
             }
         }
         if ((startStationIndex != -1) && (exitStationIndex != -1)) {
@@ -135,7 +133,6 @@ public class TrainSystem {
             startExitStations.add(getListStations().get(exitStationIndex));
             return startExitStations;
         }
-
         //couldn't find both object names
         return null;
     }
@@ -183,7 +180,7 @@ public class TrainSystem {
                     //arrived at last station
                     System.out.println("exit station arrived");
                     exitStationArrival = true;
-                }else{
+                } else {
                     countStops += 1;
                 }
                 listIterator.previous();
@@ -196,10 +193,6 @@ public class TrainSystem {
     public double calculateCost(int stopCount) {
         //R5 per stop
         return stopCount * 5;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public List<Station> getListStations() {

@@ -25,11 +25,7 @@ public class TransactionTrip {
         this.amountStops = amountStops;
         this.timestamp = new Date();
         this.costOfTrip = cost;
-
         this.memo = getTrip();
-        System.out.println(this.memo);
-
-
     }
 
     public String getMemo() {
@@ -37,7 +33,6 @@ public class TransactionTrip {
     }
 
     public String getTrip() {
-
         return passengerAccount.getName() + " took [" + amountStops + "] stops for R" + costOfTrip + " from " + stationStart + "->" + stationEnd +
                 " at (" + this.timestamp + ")";
     }

@@ -14,40 +14,33 @@ public class Main {
         int optionChoice = 0;
         boolean startScreenPassed = false;
         while (true) {
-
             //stops handleStartScreen() running on every loop
             if (!startScreenPassed) {
                 do {
                     startScreenPassed = handleStartScreen(trainSystem);
                 } while (!startScreenPassed);
             }
-
             //until user chooses login / createAccount
             do {
                 optionChoice = handleMenuOptions();
             } while (optionChoice == 0);
 
             switch (optionChoice) {
-                case 1:
-                    //Choose where to travel to on the tube system
-                    collectPassengerDestinations(trainSystem);
-                    break;
-                case 2:
-                    //View passengers current balance(available funds)
-                    viewCurrentBalance();
-                    break;
-                case 3:
-                    //Add funds to account
-                    addPassengerFunds(loggedInPassenger);
-                    break;
-                case 4:
-                    //View past tube trips
-                    loggedInPassenger.viewTravelHistory();
-                    break;
-                case 5:
-                    //Logout
-                    startScreenPassed = false;
-                    break;
+                case 1 ->
+                        //Choose where to travel to on the tube system
+                        collectPassengerDestinations(trainSystem);
+                case 2 ->
+                        //View passengers current balance(available funds)
+                        viewCurrentBalance();
+                case 3 ->
+                        //Add funds to account
+                        addPassengerFunds(loggedInPassenger);
+                case 4 ->
+                        //View past tube trips
+                        loggedInPassenger.viewTravelHistory();
+                case 5 ->
+                        //Logout
+                        startScreenPassed = false;
             }
         }
     }
@@ -215,7 +208,7 @@ public class Main {
         //get details
         //keep asking until they get it right
         while (true) {
-            System.out.print("Enter id -> ");
+            System.out.print("Enter travel card ID -> ");
             id = sc.nextLine();
             System.out.print("Enter password -> ");
             password = sc.nextLine();

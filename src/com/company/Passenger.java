@@ -1,6 +1,5 @@
 package com.company;
 
-import java.awt.font.TransformAttribute;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -10,25 +9,23 @@ public class Passenger {
 
     private String name;
 
-    private byte passwordHash[];//hashed password
-
-    private String password;
+    //hashed password
+    private byte[] passwordHash;
 
     //unique ID for the user
-    private String uuid;
+    private final String travelCardUUID;
 
     private double funds;
 
     private List<TransactionTrip> travelHistory;
 
-
     public Passenger(String id, String name, String password) {
         this.name = name;
-        this.password = password;
+//        this.password = password;
         this.travelHistory = new ArrayList<>();
 
         //temp enable bottom later
-        this.uuid = id;
+        this.travelCardUUID = id;
 
         //Hash the password
         try {
@@ -42,11 +39,6 @@ public class Passenger {
         }
     }
 
-    /**
-     * Check whether the entered password is valid or not
-     *
-     * @return
-     */
     public boolean validatePassword(String passwordToBeValidated) {
 
         try {
@@ -62,10 +54,8 @@ public class Passenger {
 
     public void addNewTransactionTrip(String stationStart, String stationExit, int amountStops, double costOfTrip) {
 
-
         //create TransactionTrip object
         TransactionTrip newTransactionTrip = new TransactionTrip(stationStart, stationExit, amountStops, costOfTrip, this);
-
 
         //add object to the travelHistory List
         travelHistory.add(newTransactionTrip);
@@ -82,8 +72,6 @@ public class Passenger {
         for (int i = this.travelHistory.size() - 1; i >= 0; i--) {
             System.out.println(this.getTravelHistory().get(i).getMemo());
         }
-
-
     }
 
     public void addFunds(double funds) {
@@ -96,8 +84,8 @@ public class Passenger {
         this.funds -= costOfTrip;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getTravelCardUUID() {
+        return travelCardUUID;
     }
 
     public double getFunds() {
@@ -106,18 +94,6 @@ public class Passenger {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public List<TransactionTrip> getTravelHistory() {
