@@ -1,7 +1,7 @@
 # JavaTrainSystem
 
-Always assume the train station is heading in the direction of station 1 - last station when passenger hops on.
-The train turns around at the end of the track and heads back the other way.
+Passenger can purchase a ticket from any station -> any station. The train always moves down the track before turning around at the end and travelling back the same way.
+
 
 ## User options:
   1.Travel On Tube\
